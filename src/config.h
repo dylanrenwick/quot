@@ -1,5 +1,5 @@
 struct qu_config {
-        
+	
 };
 
 struct qu_config config;
