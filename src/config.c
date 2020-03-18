@@ -2,6 +2,10 @@
 #include "config.h"
 
 static int new_entry_handler(void* user, const char* section, const char* name, const char* value) {
+	struct qu_config* config = (struct qu_config*)user;
+
+	#define MATCH(s, n) strcmp(section, s) == 0 && strcmp(name, n) == 0
+
 
 
 	return 1;
