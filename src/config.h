@@ -1,5 +1,7 @@
+#include "<stdint.h>"
+
 struct qu_config_config {
-	unsigned short network_port;	
+	uint16_t network_port;	
 };
 
 struct qu_config_config qu_config_values;
