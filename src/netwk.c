@@ -1,11 +1,15 @@
-#define _POSIX_C_SOURCE 200112L
-
+#include <errno.h>
 #include <netdb.h>
+#include <signal.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <stdio.h>
+#include <arpa/inet.h>
 #include <sys/socket.h>
 #include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
 
 #include "config.h"
 #include "log.h"
@@ -15,11 +19,21 @@
 
 static const char* const MOD = "netwk";
 
+void sigchld_handler(int s) {
+	int saved_errno = errno;
+	while(waitpid(-1, NULL, WNOHANG) > 0);
+	errno = saved_errno;
+}
+
 static int sock_fd;
 static int new_fd;
 
 int qu_netwk_init() {
 	uint16_t port = qu_config_values.network_port;
+	char port_buffer[6];
+
+	qu_util_itoan(port, port_buffer, 6);
+
 	struct addrinfo hints;
 	struct addrinfo* servinfo;
 	int yes = 1;
@@ -31,9 +45,9 @@ int qu_netwk_init() {
 
 	int rv;
 
-	if ((rv = getaddrinfo(NULL, port, &hints, &servinfo)) != 0) {
-		char* gai_err = gai_strerror();
-		char* msg = qu_util_strcat("Failed getaddrinfo(): ", 22, gai_err, strlen(gai_err));
+	if ((rv = getaddrinfo(NULL, port_buffer, &hints, &servinfo)) != 0) {
+		char* gai_err = gai_strerror(rv);
+		char* msg = qu_util_strcatn("Failed getaddrinfo(): ", 22, gai_err, strlen(gai_err));
 		qu_log_fatal(MOD, "msg");
 		free(msg);
 		return 0;
@@ -72,7 +86,7 @@ int qu_netwk_init() {
 	sa.sa_handler = sigchld_handler;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = SA_RESTART;
-	if (sigaction(SIGCHILD, &sa, NULL) == -1) {
+	if (sigaction(SIGCHLD, &sa, NULL) == -1) {
 		qu_log_fatal(MOD, "Could not reap dead processes!");
 		return 0;
 	}
