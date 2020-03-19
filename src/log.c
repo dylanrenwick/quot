@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <time.h>
+#include <string.h>
 
 #include "util.c"
 #include "log.h"
@@ -17,12 +18,7 @@ FILE *qu_log_fh = NULL;
 uint32_t qu_log_filesize_limit;
 
 
-int qu_log_init(
-	enum qu_log_level console_lvl,
-	enum qu_log_level file_lvl,
-	char* path,
-	uint32_t filesize_limit
-) {
+int qu_log_init() {
 	qu_log_console_lvl = console_lvl;
 	qu_log_file_lvl = file_lvl;
 
@@ -38,9 +34,9 @@ int qu_log_init(
 	qu_log_filesize_limit = filesize_limit;
 }
 
-void qu_log_common(char* lvl, char* module, char* msg, FILE* outstream) {
+void qu_log_common(enum qu_log_level lvl, char* lvlstr, char* module, char* msg) {
 	// Abort early if we can
-	if (qu_log_file_lvl == LVL_NONE && qu_log_console_lvl == LVL_NONE) {
+	if (qu_log_file_lvl < lvl && qu_log_console_lvl < lvl) {
 		return;
 	}
 
@@ -59,8 +55,8 @@ void qu_log_common(char* lvl, char* module, char* msg, FILE* outstream) {
 	);
 
 	// --- Severity level indicator ---
-	char lvlstamp = "[XXX]";
-	strncpy(lvlstamp + 1, lvl, 3);
+	char* lvlstamp = "[XXX]";
+	strncpy(lvlstamp + 1, lvlstr, 3);
 
 	// --- Module nameplate ---
 	size_t module_len = strlen(module);
@@ -71,15 +67,25 @@ void qu_log_common(char* lvl, char* module, char* msg, FILE* outstream) {
 	modstamp[module_len + 2] = '\0';
 
 	// --- Log to console ---
-	fputs(timestamp, outstream);
-	fputs( lvlstamp, outstream);
-	fputs( modstamp, outstream);
-	fputs(      msg, outstream);
-	fputs(     "\n", outstream);
+	if (lvl <= qu_log_console_lvl) {
+		// Choose an appropriate output stream based on severity level
+		FILE* outstream = lvl <= WARN ? stdout : stderr;
+		fputs(timestamp, outstream);
+		fputs( lvlstamp, outstream);
+		fputs( modstamp, outstream);
+		fputs(      msg, outstream);
+		fputs(     "\n", outstream);
+	}
 
 	// --- Log to file ---
 	// Here we just stick our head in the ground and pretend there are no errors.
 	// After all, what are we going to do, log an error?
 	// TODO maybe not stick our head in the ground
-	
+	if (lvl <= qu_log_console_lvl && qu_log_fh != NULL) {
+		fputs(timestamp, qu_log_fh);
+		fputs( lvlstamp, qu_log_fh);
+		fputs( modstamp, qu_log_fh);
+		fputs(      msg, qu_log_fh);
+		fputs(     "\n", qu_log_fh);
+	}
 }
