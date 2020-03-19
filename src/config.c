@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "../lib/inih/ini.h"
 #include "config.h"

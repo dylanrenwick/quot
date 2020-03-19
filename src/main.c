@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "config.h"
-
+#include "netwk.h"
 
 #define ART_BUFFER_SIZE 80
 void print_ascii_art();
