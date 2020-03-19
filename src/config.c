@@ -23,5 +23,10 @@ static int new_entry_handler(void* user, const char* section, const char* name, 
 }
 
 int qu_config_init(char* fileName) {
-	return ini_parse(fileName, new_entry_handler, &qu_config_values);
+	if (ini_parse(fileName, new_entry_handler, &qu_config_values) == 0) {
+		return 1;
+	}
+	else {
+		return 0;
+	}
 }

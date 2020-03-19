@@ -36,7 +36,7 @@ int qu_netwk_init() {
 		char* msg = qu_util_strcat("Failed getaddrinfo(): ", 22, gai_err, strlen(gai_err));
 		qu_log_fatal(MOD, "msg");
 		free(msg);
-		return -1;
+		return 0;
 	}
 
 	struct addrinfo* p;
@@ -59,12 +59,12 @@ int qu_netwk_init() {
 
 	if (p == NULL) {
 		qu_log_fatal(MOD, "Failed to bind to configured port!");
-		return -1;
+		return 0;
 	}
 
 	if (listen(sock_fd, BACKLOG) == -1) {
 		qu_log_fatal(MOD, "Could not listen on port!");
-		return -1;
+		return 0;
 	}
 
 	struct sigaction sa;
@@ -74,9 +74,9 @@ int qu_netwk_init() {
 	sa.sa_flags = SA_RESTART;
 	if (sigaction(SIGCHILD, &sa, NULL) == -1) {
 		qu_log_fatal(MOD, "Could not reap dead processes!");
-		return -1;
+		return 0;
 	}
 
 	qu_log_info(MOD, "Server now waiting for connections...");
-	return 0;
+	return 1;
 }
