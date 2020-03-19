@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 char* qu_util_strcatn(char* str_a, int str_a_len, char* str_b, int str_b_len) {
 	char* str = malloc(sizeof(char) * (str_a_len + str_b_len + 1));
@@ -11,6 +12,16 @@ char* qu_util_strcatn(char* str_a, int str_a_len, char* str_b, int str_b_len) {
 
 char* qu_util_strcat(char* str_a, char* str_b) {
 	return qu_util_strcatn(str_a, strlen(str_a), str_b, strlen(str_b));
+}
+
+void qu_util_itoan(int val, char* buffer, int buffer_size) {
+	for (int i = buffer_size - 1; i > 0 && val > 0; i--, val /= 10) {
+		buffer[i] = "0123456789"[val % 10];
+	}
+}
+
+void qu_util_itoa(int val, char* buffer) {
+	return qu_util_itoan(val, buffer, strlen(buffer));
 }
 
 
