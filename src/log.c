@@ -36,9 +36,11 @@ int qu_log_init() {
 	}
 
 	qu_log_filesize_limit = qu_config_values.log_maxfilesize;
+
+	return 1;
 }
 
-static void qu_log_common(enum qu_log_level lvl, char* lvlstr, char* module, char* msg) {
+static void qu_log_common(enum qu_log_level lvl, char* lvlstr, const char* module, char* msg) {
 	// Abort early if we can
 	if (qu_log_file_lvl < lvl && qu_log_console_lvl < lvl) {
 		return;
@@ -130,22 +132,22 @@ static void qu_log_rotate() {
 	free(archive_log);
 }
 
-void qu_log_fatal(char* module, char* msg) {
+void qu_log_fatal(const char* module, char* msg) {
 	qu_log_common(LVL_FATAL, "FTL", module, msg);
 }
 
-void qu_log_error(char* module, char* msg) {
+void qu_log_error(const char* module, char* msg) {
 	qu_log_common(LVL_ERROR, "ERR", module, msg);
 }
 
-void qu_log_warn(char* module, char* msg) {
+void qu_log_warn(const char* module, char* msg) {
 	qu_log_common(LVL_WARN, "WRN", module, msg);
 }
 
-void qu_log_info(char* module, char* msg) {
+void qu_log_info(const char* module, char* msg) {
 	qu_log_common(LVL_INFO, "INF", module, msg);
 }
 
-void qu_log_debug(char* module, char* msg) {
+void qu_log_debug(const char* module, char* msg) {
 	qu_log_common(LVL_DEBUG, "DBG", module, msg);
 }
