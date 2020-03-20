@@ -2,7 +2,7 @@
 #include <time.h>
 #include <string.h>
 
-#include "util.c"
+#include "util.h"
 #include "config.h"
 #include "log.h"
 

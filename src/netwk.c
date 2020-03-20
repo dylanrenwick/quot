@@ -13,7 +13,7 @@
 
 #include "config.h"
 #include "log.h"
-#include "util.c"
+#include "util.h"
 
 #define BACKLOG 10
 

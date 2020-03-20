@@ -4,6 +4,7 @@
 #include "../lib/inih/ini.h"
 #include "config.h"
 #include "log.h"
+#include "util.h"
 
 static const char* const MOD = "config";
 
