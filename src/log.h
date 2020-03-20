@@ -12,8 +12,8 @@ int qu_log_init();
 //void qu_log_raw(char*);
 
 // args are module name and message
-void qu_log_fatal(char*, char*);
-void qu_log_error(char*, char*);
-void qu_log_warn (char*, char*);
-void qu_log_info (char*, char*);
-void qu_log_debug(char*, char*);
+void qu_log_fatal(const char*, char*);
+void qu_log_error(const char*, char*);
+void qu_log_warn (const char*, char*);
+void qu_log_info (const char*, char*);
+void qu_log_debug(const char*, char*);
