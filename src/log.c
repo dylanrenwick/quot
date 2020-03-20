@@ -36,6 +36,8 @@ int qu_log_init() {
 	}
 
 	qu_log_filesize_limit = qu_config_values.log_maxfilesize;
+
+	return 1;
 }
 
 static void qu_log_common(enum qu_log_level lvl, char* lvlstr, const char* module, char* msg) {
