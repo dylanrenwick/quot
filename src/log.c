@@ -122,6 +122,9 @@ static void qu_log_rotate() {
 	rename(current_log, archive_log);
 
 	qu_log_fh = fopen(current_log, "w");
+	if (qu_log_fh == NULL) {
+		fprintf(stderr, "Failed to open log file for writing. errno = %d", errno);
+	}
 
 	free(current_log);
 	free(archive_log);
