@@ -27,10 +27,14 @@ void print_ascii_art() {
 	FILE* art_file;
 
 	if (! (art_file = fopen("resources/quot_ascii_art.txt", "r"))) {
-		
+		puts("Starting Quot, a fast and flexible chat system licensed under the Affero GPL.");
+		return;
 	}
 
 	char buffer[ART_BUFFER_SIZE];
+	while (fgets(buffer, ART_BUFFER_SIZE, art_file) != NULL) {
+		fputs(buffer, stdout);
+	}
 
-
+	fclose(art_file);
 }
