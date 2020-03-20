@@ -50,7 +50,7 @@ static void qu_log_common(enum qu_log_level lvl, char* lvlstr, const char* modul
 	char timestamp[22];
 
 	time_t curtime = time(NULL);
-	struct tm* curtime_loc = localtime(curtime);
+	struct tm* curtime_loc = localtime(&curtime);
 	sprintf(timestamp, "[%d-%02d-%02d %02d:%02d:%02d]",
 		curtime_loc->tm_year + 1900,
 		curtime_loc->tm_mon + 1,
@@ -104,7 +104,7 @@ static void qu_log_rotate() {
 	// Generate a temporal name for the archived log
 	char archive_name[24];
 	time_t curtime = time(NULL);
-	struct tm* curtime_loc = localtime(curtime);
+	struct tm* curtime_loc = localtime(&curtime);
 	sprintf(archive_name, "%d-%02d-%02d_%02d.%02d,%02d",
 		curtime_loc->tm_year + 1900,
 		curtime_loc->tm_mon + 1,
