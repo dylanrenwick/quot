@@ -9,7 +9,7 @@ enum qu_log_level {
 
 int qu_log_init();
 
-void qu_log_raw(char*);
+//void qu_log_raw(char*);
 
 // args are module name and message
 void qu_log_fatal(char*, char*);
