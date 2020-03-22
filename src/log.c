@@ -10,11 +10,10 @@
 
 
 enum qu_log_level qu_log_file_lvl = LVL_NONE;
-enum qu_log_level qu_log_console_lvl;
 #ifdef VER_RELEASE
-qu_log_console_lvl = LVL_INFO;
+enum qu_log_level qu_log_console_lvl = LVL_INFO;
 #else
-qu_log_console_lvl = LVL_DEBUG;
+enum qu_log_level qu_log_console_lvl = LVL_DEBUG;
 #endif
 
 FILE *qu_log_fh = NULL;
