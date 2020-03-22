@@ -25,7 +25,7 @@ void print_ascii_art(bool ignore_file) {
 
 int main(int argc, char** argv) {
 	bool ignore_file = false;
-	if (argc > 0 && strcmp(argv[0], "--no-ascii") == 0) {
+	if (argc > 1 && strcmp(argv[1], "--no-ascii") == 0) {
 		ignore_file = true;
 	}
 
