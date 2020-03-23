@@ -62,7 +62,7 @@ static void qu_log_common(enum qu_log_level lvl, char* lvlstr, const char* modul
 	);
 
 	// --- Severity level indicator ---
-	char* lvlstamp = "[XXX]";
+	char lvlstamp[] = "[XXX]";
 	strncpy(lvlstamp + 1, lvlstr, 3);
 
 	// --- Module nameplate ---
